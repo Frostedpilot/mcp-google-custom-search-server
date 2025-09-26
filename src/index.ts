@@ -165,7 +165,10 @@ export default async function setupServer(): Promise<Server> {
 }
 
 // Start the server
-if (import.meta.url === `file://${process.argv[1]}`) {
+const isMainModule = import.meta.url === `file://${process.argv[1]}` || 
+                     process.argv[1]?.endsWith('index.js');
+
+if (isMainModule) {
   async function main() {
     const server = await setupServer();
     const transport = new StdioServerTransport();
